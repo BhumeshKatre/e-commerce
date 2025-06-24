@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Title from "../components/Title";
-import { products } from "../assets/frontend_assets/assets";
 import ProductItem from "../components/ProductItem";
-import { use } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const Collection = () => {
+  const { allProducts } = useAuth();
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, SetCategory] = useState("all");
   const [subCategory, SetSubCategory] = useState("all");
-  const [sortBy , setSortBy] = useState('default')
+  const [sortBy, setSortBy] = useState("default");
 
   const toggleCategory = (e) => {
     const selected = e.target.value;
@@ -20,37 +20,39 @@ const Collection = () => {
     SetSubCategory(selected);
   };
 
-  const toggleSortBy = (e)=>{
+  const toggleSortBy = (e) => {
     const selected = e.target.value;
     setSortBy(selected);
-  }
-
+  };
 
   useEffect(() => {
-    setFilterProducts(products);
+    setFilterProducts(allProducts);
   }, []);
 
   useEffect(() => {
     let sortedProducts = filterProducts;
-    if (sortBy === 'price-low-high') {
-      sortedProducts = sortedProducts.sort((a, b) => b.price - a.price)
-    } else if(sortBy === 'price-high-low'){
+    if (sortBy === "price-low-high") {
+      sortedProducts = sortedProducts.sort((a, b) => b.price - a.price);
+    } else if (sortBy === "price-high-low") {
       sortedProducts = sortedProducts.sort((a, b) => a.price - b.price);
     }
-    setFilterProducts(sortedProducts)
+    setFilterProducts(sortedProducts);
   }, [sortBy]);
-  
 
   useEffect(() => {
-    let filtered = products;
-    if (category &&  category !== "all") {
-      filtered = filtered.filter((item) => item.category.toLowerCase() === category.toLowerCase());
+    let filtered = allProducts;
+    if (category && category !== "all") {
+      filtered = filtered.filter(
+        (item) => item.category.toLowerCase() === category.toLowerCase()
+      );
     }
- 
-    if (subCategory && subCategory !== 'all'){
-      filtered = filtered.filter(item => item.subCategory.toLowerCase() === subCategory.toLowerCase());
+
+    if (subCategory && subCategory !== "all") {
+      filtered = filtered.filter(
+        (item) => item.subCategory.toLowerCase() === subCategory.toLowerCase()
+      );
     }
- 
+
     setFilterProducts(filtered);
   }, [category, subCategory]);
 
@@ -65,7 +67,8 @@ const Collection = () => {
             <p className="font-semibold text-sm w-20">Sort-by</p>
             <select
               onChange={toggleSortBy}
-              className="border-none rounded py-1 ml-2 outline-none text-sm bg-transparent w-full">
+              className="border-none rounded py-1 ml-2 outline-none text-sm bg-transparent w-full"
+            >
               <option value="default">Default</option>
               <option value="price-low-high">Price: Low to High</option>
               <option value="price-high-low">Price: High to Low</option>
