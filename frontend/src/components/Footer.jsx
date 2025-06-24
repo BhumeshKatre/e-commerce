@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer>
-      <div className="pt-10 border-t-1  border-gray-200 flex flex-col md:flex-row justify-between  text-gray-800">
+    <footer className="pb-3">
+      <div className="pt-10 pb-5 border-t-1  border-gray-200 flex flex-col md:flex-row justify-between  text-gray-800">
         <div className="mb-4 md:mb-0 max-w-xs">
           <h1 className="text-xl font-bold mb-2">E-Commerce</h1>
           <p>
@@ -41,7 +41,7 @@ const Footer = () => {
         </div>
 
         <div>
-          <h1 className="text-lg font-semibold mb-2">Get in Touch</h1>
+          <h1 className="text-lg font-semibold mb-2 p-5 ">Get in Touch</h1>
           <ul>
             <li>Email: info@ecommerce.com</li>
             <li>Phone: +1 234 567 890</li>
@@ -58,7 +58,7 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <div className="mt-8 text-center text-gray-500 text-sm">
+      <div className="mt-8 text-center p-4  text-gray-500 text-sm border-t  border-gray-300">
         &copy; {new Date().getFullYear()} E-Commerce. All rights reserved.
       </div>
     </footer>

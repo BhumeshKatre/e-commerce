@@ -4,7 +4,7 @@ import {Link } from 'react-router-dom'
 const ProductItem = ({ _id, image, name, price }) => {
 
   return (
-    <Link to={`/product/${_id}`} className="text-gray-400 cursor-pointer ">
+    <Link to={`/products/${_id}`} className="text-gray-400 cursor-pointer ">
       <div className="overflow-hidden">
         <img
           src={image[0]}

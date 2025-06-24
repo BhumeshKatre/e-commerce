@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import {
   FaUser,
   FaShoppingCart,
@@ -9,9 +9,12 @@ import {
 } from "react-icons/fa";
 import { IoIosArrowBack, IoMdClose } from "react-icons/io";
 import { CgMenuRight } from "react-icons/cg";
+import { useAuth } from "../context/AuthContext";
 const Navbar = () => {
   const [show, setShow] = useState(false);
+  const { cartItem } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
+  const [totalCartItem, setTotalcartItem] = useState(false);
   const menuItems = [
     { name: "HOME", path: "/" },
     { name: "COLLECTION", path: "/collection" },
@@ -26,6 +29,10 @@ const Navbar = () => {
   const handleMenuVisible = () => {
     setMenuVisible(!menuVisible);
   };
+
+  useEffect(() => {
+    setTotalcartItem(cartItem.length);
+  }, [cartItem]);
 
   return (
     <>
@@ -50,13 +57,15 @@ const Navbar = () => {
             <FaSearch onClick={handleSearchBox} className="text-xl" />
           </button>
 
-          <div className="cursor-pointer relative group">
+          <Link to={"/cart"} className="cursor-pointer relative group">
             <FaShoppingCart className="text-xl " />
 
-            <div className="absolute -top-2 -right-2 rounded-full p-2 bg-blue-500 w-5 h-5 flex items-center justify-center  text-white">
-              <span className="text-sm">1</span>
-            </div>
-          </div>
+            {totalCartItem > 0 && (
+              <div className="absolute -top-2 -right-2 rounded-full p-2 bg-blue-500 w-5 h-5 flex items-center justify-center  text-white">
+                <span className="text-sm">{totalCartItem}</span>
+              </div>
+            )}
+          </Link>
 
           <div className="cursor-pointer relative group">
             <FaUser className="text-xl" />
