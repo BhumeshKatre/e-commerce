@@ -15,7 +15,7 @@ const BestSeller = () => {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 gap-y-6 ">
-        {products.splice(11,16 ).map((item, indx) => (
+        {products.splice(0,5).map((item, indx) => (
           <ProductItem
             key={indx}
             id={item._id}

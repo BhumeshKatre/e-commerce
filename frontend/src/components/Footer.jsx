@@ -41,7 +41,7 @@ const Footer = () => {
         </div>
 
         <div>
-          <h1 className="text-lg font-semibold mb-2 p-5 ">Get in Touch</h1>
+          <h1 className="text-lg font-semibold mb-2  ">Get in Touch</h1>
           <ul>
             <li>Email: info@ecommerce.com</li>
             <li>Phone: +1 234 567 890</li>
