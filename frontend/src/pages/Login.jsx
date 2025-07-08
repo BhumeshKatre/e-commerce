@@ -26,7 +26,6 @@ const Login = () => {
         }
       );
       toast.success("Login successful:");
-      alert(`Email: ${form.email}\nPassword: ${form.password}`)
     } catch (error) {
       toast.error("Login failed:", error.response?.data || error.message);
     }

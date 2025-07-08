@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-
+const  bcrypt =require("bcryptjs");
 
 // declare userSchema  
 const userSchema = new mongoose.Schema({
@@ -25,5 +25,27 @@ const verifyToken = (token) => {
   }
 };
 
+const hashPassword = async (password) => {
+  try {
+    const saltRounds = 10;
+    const hashed = await bcrypt.hash(password, saltRounds);
+    return hashed;
+  } catch (err) {
+    console.error("Hashing error:", err);
+    return null; 
+  }
+}
+
+const verifyPassword = async (password, hashedPassword) => {
+  try {
+    const isMatch = await bcrypt.compare(password, hashedPassword);
+    console.log("Password match:", isMatch);
+    return isMatch;
+  } catch (err) {
+    console.error("Password verification error:", err);
+    return false; 
+  }
+}
+
 // export all modules 
-module.exports = { User, generateToken, verifyToken };
+module.exports = { User, generateToken, verifyToken, hashPassword , verifyPassword};

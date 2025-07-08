@@ -1,5 +1,11 @@
 const express = require("express");
-const { User, generateToken } = require("../models/userModel");
+const {
+  User,
+  generateToken,
+  hashPassword,
+  verifyPassword,
+} = require("../models/userModel");
+const { protect } = require("../middleware/user.middleware");
 const router = express.Router();
 // const User = require("../models/userModel");
 
@@ -15,7 +21,10 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    const user = new User({ name, password, email });
+    // Hash the password
+    const hashedPassword = await hashPassword(password);
+
+    const user = new User({ name, password: hashedPassword, email });
     await user.save();
 
     const token = generateToken(user);
@@ -40,8 +49,11 @@ router.post("/login", async (req, res) => {
 
     // check if user exist
     const user = await User.findOne({ email });
+    console.log(user.password);
 
-    if (user && user.password === password) {
+    const verifiedPassword = await verifyPassword(password, user?.password);
+
+    if (user && verifiedPassword) {
       const token = generateToken(user);
 
       res.cookie("jwt", token, {
@@ -60,6 +72,29 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/me", protect, async (req, res) => {
+  res.json(req.user);
+});
+
+router.get("/logout", (req, res) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "strict",
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
+});
+
+router.get("/all-user", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error.response?.message);
   }
 });
 
