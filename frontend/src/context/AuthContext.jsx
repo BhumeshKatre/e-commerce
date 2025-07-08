@@ -21,7 +21,8 @@ export const AuthProvider = ({ children }) => {
 
   const addToCart = (product, selectSize) => {
     const isAlreadyInCart = cartItem.some(
-      (item) => item.product._id === product._id && item.selectSize === selectSize
+      (item) =>
+        item.product._id === product._id && item.selectSize === selectSize
     );
     console.log(isAlreadyInCart);
     if (isAlreadyInCart) {
@@ -35,25 +36,26 @@ export const AuthProvider = ({ children }) => {
     setCheckoutInfo({
       subtotal: subtotal,
       shippingCharge: shippingCharge,
-      total: shippingCharge + subtotal
-    })
-    navigate('/place-order')
-  }
+      total: shippingCharge + subtotal,
+    });
+    navigate("/place-order");
+  };
 
   useEffect(() => {
     setAllProducts(products);
   }, []);
 
   return (
-    <AuthContext.Provider value={{
-      allProducts,
-      addToCart,
-      cartItem,
-      checkoutInfo,
-      setCheckoutInfo, 
-      handleProceedBtn
-    }}>
-    
+    <AuthContext.Provider
+      value={{
+        allProducts,
+        addToCart,
+        cartItem,
+        checkoutInfo,
+        setCheckoutInfo,
+        handleProceedBtn,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

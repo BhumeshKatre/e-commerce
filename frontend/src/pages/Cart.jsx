@@ -2,16 +2,23 @@ import React from "react";
 import Title from "../components/Title";
 import { useAuth } from "../context/AuthContext";
 import { MdDelete } from "react-icons/md";
+import { Navigate } from "react-router-dom";
 
 const Cart = () => {
   const { cartItem, allProducts, handleProceedBtn } = useAuth();
-  const subtotal = allProducts.slice(0,4).reduce((sum, item) => sum + item.price,0);
+  const subtotal = cartItem?.reduce((sum, item) => sum + item.price,0);
   const shippingCharge = 10;
+  console.log(cartItem);
+ 
+  if (cartItem) {
+    return <Navigate to={"/collection "} replace />
+  }
+
   return (
     <section className="py-10">
       <Title text1={"YOUR"} text2={"CART"} />
       <div className="px-2 sm:px-5 py-6 mt-8 border border-gray-400 rounded-md bg-white">
-        {allProducts.slice(0, 4).map((item, idx) => (
+        {cartItem.map((item, idx) => (
           <div
             key={idx}
             className="flex flex-col w-full md:flex-row  gap-4 py-4 border-b border-gray-200"
